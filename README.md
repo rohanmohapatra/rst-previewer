@@ -2,7 +2,7 @@
 
 A modern CLI tool that finds reStructuredText (.rst) files in a directory and displays them in a clean, web-based Gradio interface. Perfect for quickly previewing documentation, articles, or notes without a full Sphinx build.
 
-<img src="docs/images/hero.png">
+<img src="https://raw.githubusercontent.com/rohanmohapatra/rst-previewer/main/docs/images/hero.png">
 
 ## Installation
 This tool is designed to be installed and run in an isolated environment using pipx. This avoids cluttering your global Python installation.

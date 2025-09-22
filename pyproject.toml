@@ -21,7 +21,7 @@ description = "A modern CLI and web-based viewer for reStructuredText files."
 name = "rst-previewer"
 readme = "README.md"
 requires-python = ">=3.10"
-version = "0.2.0"
+version = "0.2.1"
 
 [project.scripts]
 rst-previewer = "rst_previewer.main:app"
