@@ -1,7 +1,7 @@
 # rst-previewer
 
-![GitHub License](https://img.shields.io/github/license/rohanmohapatra/rst-previewer)
-![PyPI - Version](https://img.shields.io/pypi/v/rst-previewer)
+[![GitHub License](https://img.shields.io/github/license/rohanmohapatra/rst-previewer)](LICENSE)
+[![PyPI - Version](https://img.shields.io/pypi/v/rst-previewer)](https://pypi.org/project/rst-previewer/)
 ![Python 3.6](https://img.shields.io/badge/python-3.10+-blue.svg)
 
 A modern CLI tool that finds reStructuredText (.rst) files in a directory and displays them in a clean, web-based Gradio interface. Perfect for quickly previewing documentation, articles, or notes without a full Sphinx build.
