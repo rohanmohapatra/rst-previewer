@@ -1,8 +1,8 @@
-# rst_viewer/main.py
+# rst_previewer/main.py
 
 import typer
 import os
-from rst_viewer.app import create_gradio_app
+from rst_previewer.app import create_gradio_app
 from termcolor import cprint, colored
 
 app = typer.Typer()
