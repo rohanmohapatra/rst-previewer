@@ -31,6 +31,7 @@ def main(
     """
     A modern CLI and web-based viewer for reStructuredText files.
     """
+    directory = os.path.abspath(directory)
     cprint(f"Searching for .rst files in: {colored(directory, 'cyan')}", "green", attrs=["bold"])
     
     rst_files = find_rst_files(directory)
@@ -70,7 +71,7 @@ def main(
         cprint("Gradio app is starting at http://127.0.0.1:9000", "yellow")
         cprint("Press Ctrl+C to stop the server.", attrs=["dark"])
         
-        gradio_app.launch(server_name='0.0.0.0', server_port=9000, show_api=False)
+        gradio_app.launch(server_name='0.0.0.0', server_port=9000, show_api=False, allowed_paths=[directory])
 
     except KeyboardInterrupt:
         cprint("\nShutting down the server...", "yellow", attrs=["bold"])

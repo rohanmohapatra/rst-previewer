@@ -1,15 +1,23 @@
+import re
 import gradio as gr
 from docutils.core import publish_parts
 import sys
 import io
 import os
 
-def render_rst_to_html(rst_text: str) -> str:
+def render_rst_to_html(rst_text: str, rst_file_path: str) -> str:
     """
     Renders a reStructuredText string to an HTML fragment.
     """
     old_stderr = sys.stderr
     sys.stderr = captured_stderr = io.StringIO()
+    rst_dir = os.path.dirname(rst_file_path)
+
+    def make_gradio_path(match):
+        """Builds the correct Gradio file URL."""
+        relative_path = match.group(1)
+        absolute_path = os.path.join(rst_dir, relative_path)
+        return f'src="/gradio_api/file={absolute_path}"'
 
     try:
         parts = publish_parts(
@@ -25,10 +33,12 @@ def render_rst_to_html(rst_text: str) -> str:
             }
         )
         html_output = parts['html_body']
+        html_output = re.sub(r'src="(?![a-zA-Z]+:)([^"]+)"', make_gradio_path, html_output)
         errors = captured_stderr.getvalue()
 
         if errors:
             error_html = f'<pre style="background-color: #fee2e2; color: #991b1b; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #f87171; white-space: pre-wrap; font-family: monospace;">{errors}</pre>'
+            
             html_output = error_html + html_output
 
         return f'<div class="p-4 sm:p-6 lg:p-8">{html_output}</div>'
@@ -49,7 +59,7 @@ def create_gradio_app(file_path: str, serving_dir: str) -> gr.Blocks:
     except Exception as e:
         rst_content = f"An error occurred while reading the file: {e}"
 
-    initial_html = render_rst_to_html(rst_content)
+    initial_html = render_rst_to_html(rst_content, file_path)
 
     with gr.Blocks(
         theme=gr.themes.Soft(font=[gr.themes.GoogleFont("Inter"), "sans-serif"]),
@@ -76,9 +86,6 @@ def create_gradio_app(file_path: str, serving_dir: str) -> gr.Blocks:
         """)
         with gr.Row():
             with gr.Column(scale=1):
-                html_output = gr.HTML(initial_html, elem_classes="prose")
+                gr.HTML(initial_html, elem_classes="prose")
     
-    # Serve the directory containing the RST file to allow access to local images
-    demo.allowed_paths = [serving_dir]
-
     return demo
